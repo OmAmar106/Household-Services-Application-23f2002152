@@ -1,0 +1,11 @@
+/add_customer - POST
+input : password,firstname,lastname,address,pincode,username,email
+
+/add_professional - POST
+input : almost same as above with exp and compname
+
+/check - POST 
+input : username , password 
+
+also do cross check if add professional is working or not
+also always refer to service as task
