@@ -1,17 +1,19 @@
-import Navbar from "./components/cnav.js";
+import Navbar from "./components/snav.js";
 
 const { createApp } = Vue;
 const { createRouter, createWebHistory } = VueRouter;
 
+
 const Dashbord = {
     template: `
-    <div> hi </div>
+        <div>
+        </div>
     `
 }
 //Routes
 const routes = [
-    { path: '/', redirect: '/dashbord' }, //temporarily 
-    { path: '/dashbord', component: Dashbord },
+    { path: '/', redirect: '/service' }, //temporarily 
+    { path: '/service', component: Dashbord },
 ];
 
 //Router
@@ -48,13 +50,11 @@ const app = createApp({
     `
         <div>
             <Navbar></Navbar><br>
-            <div class="lowerdiv">
-                <router-view></router-view>
-                <content></content>
-            </div>
+            <router-view></router-view>
         </div>
-    `
+    `,
 });
+
 app.use(router);
 app.mount('#app');
 

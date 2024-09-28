@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, jsonify
 from flask import session
 from flask import url_for
 from functools import wraps
+from model import *
 
 def login_required(f):
     @wraps(f)
@@ -10,7 +11,6 @@ def login_required(f):
             return f(*args, **kwargs)
         return redirect('/')
     return decorated_function
-
 
 def index(app):
     @app.route('/service')

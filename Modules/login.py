@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, jsonify
 from flask import session
 from flask import url_for
-from Modules import password
+from Modules.password import *
 from functools import wraps
 from model import *
 from sqlalchemy import or_
@@ -89,7 +89,6 @@ def index(app):
         user = Users.query.filter(or_(Users.username == username, Users.email == username)).first()
         if not user:
             return jsonify({'message':'user does not exist'}),400
-        print(user.password,password)
         if int(user.password)!=int(password):
             return jsonify({'message':'password does not match'}),400
         session['type'] = user.type

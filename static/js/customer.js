@@ -3,15 +3,32 @@ import Navbar from "./components/cnav.js";
 const { createApp } = Vue;
 const { createRouter, createWebHistory } = VueRouter;
 
+
 const Dashbord = {
     template: `
-    <div> hi </div>
+        <div>
+        </div>
     `
 }
+
+const Profile = {
+    props: {
+        user: {
+          type: Object
+        },
+    },
+    template: `
+        <div style="margin-top:70px">
+            {{user}}
+        </div>
+    `
+}
+
 //Routes
 const routes = [
-    { path: '/', redirect: '/dashbord' }, //temporarily 
-    { path: '/dashbord', component: Dashbord },
+    { path: '/', redirect: '/customer' }, //temporarily 
+    { path: '/customer', component: Dashbord },
+    { path: '/customer/profile', component: Profile},
 ];
 
 //Router
@@ -47,14 +64,36 @@ const app = createApp({
     template: 
     `
         <div>
-            <Navbar></Navbar><br>
-            <div class="lowerdiv">
-                <router-view></router-view>
-                <content></content>
-            </div>
+            <Navbar :user="user" v-if="user"></Navbar><br>
+            <router-view :user="user"></router-view>
         </div>
-    `
+    `,
+    data(){
+        return {
+            user:null,
+        };
+    },
+    mounted(){
+        this.func();
+    },
+    methods:{
+        async func(){
+            const response = await fetch('/customer/getdetails', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (!response.ok) {
+                window.location.href = '/error';
+            } else {
+                const data = await response.json();
+                this.user = data;
+            }
+        }
+    }
 });
+
 app.use(router);
 app.mount('#app');
 

@@ -43,6 +43,9 @@ def red():
     else:
         return redirect('/admin')
 
+@app.route('/error')
+def error():
+    return render_template('error.html')
 if __name__ == '__main__':
     initialise()
     app.run(debug=True)
