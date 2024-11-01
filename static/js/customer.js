@@ -42,10 +42,10 @@ const router = createRouter({
 const content = {
     template:`
         <div class="info">
-            <div class="title"> Service Finder </div>
+            <div class="title"> Clean Sweep </div>
             <br><br>
             <div class="content">
-                <p>Welcome to Service Finder. <router-link to='/login'>Sign in</router-link> to book services. 
+                <p>Welcome to Clean Sweep. <router-link to='/login'>Sign in</router-link> to book services. 
                 In case of queries , go to <router-link to='/query'>Query page.</router-link></p>
                 <br><br>
                 <p>If this is your first time visited here , go to <router-link to='/signup'>Signup Page</router-link>

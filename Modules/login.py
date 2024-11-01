@@ -15,7 +15,7 @@ def login_notrequired(f):
     return decorated_function
 
 def index(app):
-
+    
     @app.errorhandler(404)
     def error(e):
         return redirect(url_for('base'))
@@ -24,7 +24,7 @@ def index(app):
     @login_notrequired
     def base():
         return render_template('index.html')
-    
+
     @app.route('/add_customer', methods=['POST'])
     def add_user():
         data = request.json
@@ -32,7 +32,7 @@ def index(app):
         email = data.get('email')
         existing_user = Users.query.filter_by(username=username).first()
         user1 = Users.query.filter_by(email=email).first()
-        if existing_user:
+        if existing_user or username=='admin':
             return jsonify({'message': 'Users already exists'}), 400
         if user1:
             return jsonify({'message': 'email already in use'}),400
@@ -60,7 +60,7 @@ def index(app):
         email = data.get('email')
         existing_user = Users.query.filter_by(username=username).first()
         user1 = Users.query.filter_by(email=email).first()
-        if existing_user:
+        if existing_user or username=='admin':
             return jsonify({'message': 'Users already exists'}), 400
         if user1:
             return jsonify({'message': 'email already in use'}),400
@@ -73,7 +73,7 @@ def index(app):
         db.session.add(new_user)
         db.session.commit()
         id = Users.query.filter_by(username=username).first().ID
-        new_cus = Professional(UserID = id,company = compname,Experience = exp,pincode=pincode,address=address,Reveiwsum=5,Reveiwcount=1)
+        new_cus = Professional(UserID = id,company = compname,Experience = exp,pincode=pincode,address=address,Reveiwsum=5,Reveiwcount=1,Resume=0)
         db.session.add(new_cus)
         db.session.commit()
         session['islogin'] = True
@@ -86,6 +86,13 @@ def index(app):
         data = request.json
         username = data['username']
         password = hash(data['password'])
+        if username=='admin' and password=='687492387':
+            session['type'] = 'A'
+            session['islogin'] = True
+            session['username'] = 'admin'
+            return jsonify({'message':':)'}),200
+        elif username=='admin':
+            return jsonify({'message':'password does not match'}),400
         user = Users.query.filter(or_(Users.username == username, Users.email == username)).first()
         if not user:
             return jsonify({'message':'user does not exist'}),400

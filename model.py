@@ -1,7 +1,21 @@
-from flask_sqlalchemy import SQLAlchemy 
+from flask_sqlalchemy import SQLAlchemy
+from flask_security import UserMixin, RoleMixin
+import uuid
+
 db = SQLAlchemy()
 
-class Users(db.Model):
+roles_users = db.Table('roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('Users.ID')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('Role.ID'))
+)
+
+class Role(db.Model, RoleMixin):
+    __tablename__ = 'Role'
+    ID = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+class Users(db.Model, UserMixin):
     __tablename__ = 'Users'
     ID = db.Column(db.Integer,primary_key = True,autoincrement = True)
     username = db.Column(db.String,nullable=False,unique=True)
@@ -9,6 +23,8 @@ class Users(db.Model):
     type = db.Column(db.String,nullable=False)
     isactive = db.Column(db.Integer,nullable=False)
     email = db.Column(db.String,nullable=False,unique=True)
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    fs_uniquifier = db.Column(db.String, unique=True, default=lambda: str(uuid.uuid4()))
 
 class Customers(db.Model):
     __tablename__ = 'Customers'
@@ -30,6 +46,7 @@ class Professional(db.Model):
     ServicelistID = db.Column(db.Integer) #connected to service list id 
     Reveiwsum = db.Column(db.Integer)
     Reveiwcount = db.Column(db.Integer)
+    Resume = db.Column(db.Integer,nullable=False)
     #xould add a pdf column whether it exists or not
 
 class Services(db.Model):
@@ -46,16 +63,16 @@ class Services(db.Model):
 class Remarks(db.Model):
     __tablename__ = 'Remarks'
     ID = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    serviceID = db.Column(db.Integer,nullable=False) # connected to class services
+    serviceID = db.Column(db.Integer,nullable=False)
     remark = db.Column(db.String)
     star = db.Column(db.String)
 
 class ServiceList(db.Model):
     __tablename__ = 'ServiceList'
     ID = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    Service = db.Column(db.String,nullable=False)
+    Service = db.Column(db.String,nullable=False) #idhar mention nahi kiya hain par ise bhi unique rakhna hain 
     Details = db.Column(db.String) 
-    BasePayment = db.Column(db.String) 
+    BasePayment = db.Column(db.Integer,nullable=False) 
 
 class Queries(db.Model):
     __tablename__ = 'queries'
