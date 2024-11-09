@@ -16,7 +16,6 @@ export default {
             <img src="static/images/dropdown.png" class="toggle"></button>
             <div :class="{'dropdown-content': true,'show': isOpen}">
                 <router-link to="/customer/profile" @click="toggleDropdown">Profile</router-link>
-                <router-link to="/customer/export" @click="toggleDropdown">Export</router-link>
                 <router-link to="/customer/settings" @click="toggleDropdown">Settings</router-link>
                 <a href="/signout">Log out</a>
             </div>

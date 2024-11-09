@@ -7,13 +7,178 @@ const { createRouter, createWebHistory } = VueRouter;
 const Dashbord = {
     template: `
         <div>
+        <br><br><br><br>
+        {{data}}
+        </div>
+    `,
+    data(){
+        return{
+            data: [],
+        }
+    },
+    methods:{
+        async fetchdata(){
+            let response = await fetch('/pendingservice');
+            const data1 = await response.json();
+            this.data = data1;
+        },
+    },
+    mounted(){
+        this.fetchdata();
+    }
+}
+
+const Customer = {
+    props: {
+        data: {
+            type: Object,
+            required: true
+        },
+    },
+    template: `
+        <div class="wrapper">
+            <a :href="'/profile/' + data.username">
+                <div class="user-card">
+                    <div class="user-card-img">
+                        <img :src="data.profilepic"/>
+                    </div>
+                    <div class="user-card-info">
+                        <h2>{{data.username}}</h2>
+                        <hr style="border: 1.5px solid purple; margin: 10px 0;">
+                        <br>
+                        <p><span>Name:</span> {{data.Firstname}} {{data.Lastname}}</p>
+                        <br>
+                        <p><span>Email:</span>{{data.email}}</p>
+                        <br>
+                        <p><span>Location:</span>{{data.address}}</p>
+                        <br>
+                        <p><span>Pincode:</span>{{data.pincode}}</p>
+                    </div>
+                </div>
+            </a>
         </div>
     `
+};
+
+const Professional = {
+    props: {
+        data: {
+            type: Object,
+            required: true
+        },
+    },
+    template: `
+        <div class="wrapper">
+            <a :href="'/profile/' + data.username">
+                <div class="user-card" style="background-color:lightblue">
+                    <div class="user-card-img">
+                        <img :src="data.profilepic"/>
+                    </div>
+                    <div class="user-card-info seller">
+                        <h2>{{data.username}} <span style="margin-left:235px;">{{data.Reveiwsum/data.Reveiwcount}}/5&#11088;</span></h2>
+                        <hr style="border: 1.5px solid purple; margin: 10px 0;">
+                        <br>
+                        <p><span>Company:</span> {{data.company}}</p>
+                        <br>
+                        <p><span>Service:</span>{{data.service}}</p>
+                        <br>
+                        <p><span>Experience:</span> {{data.Experience}}</p>
+                        <br>
+                        <p><span>Email:</span>{{data.email}}</p>
+                        <br>
+                        <p><span>Location:</span>{{data.address}}</p>
+                        <br>
+                        <p><span>Pincode:</span>{{data.pincode}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    `
+};
+
+const Search = {
+    components: {
+        Customer,
+        Professional,
+    },
+    props: {
+        data: {
+            type: Object,
+            required: true
+        },
+    },
+    template: `
+        <div class="search">
+            <div class="topnav">
+                <select v-model="type" class="textsearch">
+                    <option value="" selected >Select a Type</option>
+                    <option value="Professional">Professional</option>
+                    <option value="Customer">Customer</option>
+                </select>
+                <input type="text" placeholder="Pincode.." v-model="area" class="textsearch">
+                <input type="text" placeholder="Search.." v-model="searchQuery" class="textsearch">
+                <img src="/static/images/magnifying-glass-solid.svg" style="width:20px;height:20px;">
+            </div>
+
+            <div v-for="(item, key) in filteredData" :key="key" class="user-item">
+                <Customer :data="item" v-if="item.isactive==1 && item.type=='C'"/>
+                <Professional :data="item" v-if="item.isactive==1 && item.type=='S'"/>
+            </div>
+        </div>
+        <br>
+    `,
+    data(){
+        return{
+            searchQuery:'',
+            type:'',
+            area:'',
+            data:[],
+        }
+    },
+    computed: {
+        filteredData(){
+            function issimilar(a,b){
+                const strA = b.toString();
+                const strB = a.toString();
+                return strB.includes(strA);
+            }
+            let data1 = {};
+            for (const [key, value] of Object.entries(this.data)) {
+                if(value.username && !value.username.includes(this.searchQuery)){
+                    continue;
+                }
+                if(value.username && this.area!=0 && !issimilar(value.pincode,this.area)){
+                    continue;
+                }
+                if(this.type=="Professional" && value.type=="C"){
+                    continue;
+                }
+                if(this.type=="Customer" && value.type=="S"){
+                    continue;
+                }
+                data1[key] = value;
+            }
+            return data1;
+        }
+    },
+    methods:{
+        async fetchdata(){
+            let response = await fetch('/getusers');
+            // console.log(response)
+            const data1 = await response.json();
+            this.data = data1;
+        }
+    },
+    mounted(){
+        this.fetchdata();
+    }
 }
+
 //Routes
 const routes = [
     { path: '/', redirect: '/service' }, //temporarily 
     { path: '/service', component: Dashbord },
+    { path: '/service/search', component: Search },
 ];
 
 //Router
@@ -114,20 +279,32 @@ const FirstLogin = {
     }
 }
 
+const Inrev = {
+    template: `
+    <div style="text-align:center;font-size:52px;margin-top:17%;">
+        Your resume is currently in review :).<br>
+        You will be able to proceed once it has been accepted.
+    </div>
+    `
+}
 //App
 const app = createApp({
     components: {
         Navbar,
         FirstLogin,
+        Inrev
     },
     template: 
     `
         <div>
-            <div v-if="user && user.ServicelistID">
-                <Navbar></Navbar><br>
+            <div v-if="user && user.isactive==1">
+                <Navbar :user="user" v-if="user"></Navbar><br>
                 <router-view :user="user"></router-view>
             </div>
-            <div v-else>
+            <div v-if="user && user.isactive==0">
+                <Inrev></Inrev>
+            </div>
+            <div v-if="user && user.isactive==-1">
                 <FirstLogin></FirstLogin>
             </div>
         </div>

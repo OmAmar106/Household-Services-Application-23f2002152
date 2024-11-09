@@ -36,3 +36,14 @@ def index(app):
         db.session.add(newservice)
         db.session.commit()
         return jsonify({'message':'Created Succesfully'}),200
+    
+    @app.route('/toggleactive',methods=['POST'])
+    def toggleactive():
+        data = request.json
+        user = Users.query.filter_by(ID=data.get('ID')).first()
+        if user.isactive:
+            user.isactive = 0
+        else:
+            user.isactive = 1
+        db.session.commit()
+        return jsonify({'message':':)'}),200

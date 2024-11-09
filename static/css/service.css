@@ -11,6 +11,7 @@
 
 body{
     background-image: url('/static/images/firstloginbg.jpg');
+    background-attachment: fixed;
     background-size: cover;
 }
 
@@ -279,4 +280,154 @@ body{
     font-size: large;
     width:410px;
     height:40px;
+}
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4%;
+}
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgreen;
+    border-radius: 10px;
+    padding: 40px;
+    width: 900px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 20px -5px rgba(0,0,0,0.5);
+}
+  
+.user-card:before {
+    content: '';
+    position: absolute;
+    height: 300%;
+    width: 380px;
+    background: #262626;
+    top: -200px;
+    left: -108px;
+    z-index: 0;
+    transform: rotate(17deg);
+}
+  
+.user-card-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    z-index: 3;
+}
+  
+.user-card-img img {
+    width: 180px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 150px;
+    border-radius: 100px;
+}
+
+   
+.user-card-info {
+    text-align: center;
+}
+  
+.user-card-info h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.user-card-info p {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+.user-card-info p span {
+    font-weight: 700;
+    margin-right: 10px;
+}
+@media only screen and (min-width: 768px) {
+    .user-card {
+      flex-direction: row;
+      align-items: flex-start;
+    }   
+    .user-card-img {
+      margin-right: 20px;
+      margin-bottom: 0;
+    }
+  
+    .user-card-info {
+      text-align: left;
+    }
+}
+ 
+@media (max-width: 767px){
+    .wrapper{
+       padding-top: 3%;
+    }
+    .user-card:before {
+       width: 300%;
+       height: 200px;
+       transform: rotate(0);
+    }
+    .user-card-info h2 {
+       font-size: 35px;
+    }
+    .user-card-info p span {
+       display: block;
+       margin-bottom: 15px;
+       font-size: 18px;
+    }
+}
+
+.wrapper a{
+    text-decoration: none;
+}
+
+.wrapper .user-card-info h2{
+    color: darkblue;
+}
+
+.wrapper .user-card-info p{
+    color: black;
+}
+
+.seller p{
+    color:darkgreen;
+}
+
+
+.topnav {
+    display: flex; 
+    align-items: center;
+    overflow: hidden;
+    margin-top: 100px;
+    margin-left: 400px;
+}
+  
+.topnav input[type=text] {
+    float: right;
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    color: black;
+}
+
+.textsearch {
+    background-color: transparent;
+    margin-left:90px;
+    outline:none;
+    width: 170px;
+    border: none; 
+    border-bottom: 2px solid black; 
+    padding: 5px;
+    font-size: 16px; 
+}
+
+.textsearch::placeholder {
+    color: black; 
+    opacity: 1;
 }

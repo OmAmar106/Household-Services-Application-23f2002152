@@ -69,7 +69,7 @@ def index(app):
         exp = data.get('exp')
         address = data.get('address')
         pincode = data.get('pincode')
-        new_user = Users(username=username,password=password,type="S",isactive=1,email=email)
+        new_user = Users(username=username,password=password,type="S",isactive=-1,email=email)
         db.session.add(new_user)
         db.session.commit()
         id = Users.query.filter_by(username=username).first().ID

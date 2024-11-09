@@ -4,14 +4,18 @@ export default {
             isOpen: false
         };
     },
+    props: {
+        user: {
+          type: Object
+        },
+    },
     template: `
     <div class="nav" ref="nav">
         <div class="dropdown">
-            <button @click="toggleDropdown" class="profile"><img src="static/images/Profile/default.png" class="profilepic">
+            <button @click="toggleDropdown" class="profile"><img :src="user.profilepic" class="profilepic" />
             <img src="static/images/dropdown.png" class="toggle"></button>
             <div :class="{'dropdown-content': true,'show': isOpen}">
                 <router-link to="/service/profile" @click="toggleDropdown">Profile</router-link>
-                <router-link to="/service/export" @click="toggleDropdown">Export</router-link>
                 <router-link to="/service/settings" @click="toggleDropdown">Settings</router-link>
                 <a href="/signout">Log out</a>
             </div>
@@ -24,21 +28,18 @@ export default {
     `,
     methods: {
         toggleDropdown() {
-            this.isOpen = !this.isOpen; // Toggle dropdown visibility
+            this.isOpen = !this.isOpen;
         },
         closeDropdown(event) {
-            // Check if the click was outside the dropdown
             if (this.$refs.nav && !this.$refs.nav.contains(event.target)) {
-                this.isOpen = false; // Close dropdown
+                this.isOpen = false;
             }
         }
     },
     mounted() {
-        // Add a click event listener to the document when component is mounted
         document.addEventListener('click', this.closeDropdown);
     },
     beforeDestroy() {
-        // Clean up the event listener when the component is destroyed
         document.removeEventListener('click', this.closeDropdown);
     }
 };

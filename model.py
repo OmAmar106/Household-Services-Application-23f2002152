@@ -64,6 +64,7 @@ class Remarks(db.Model):
     __tablename__ = 'Remarks'
     ID = db.Column(db.Integer,primary_key = True,autoincrement = True)
     serviceID = db.Column(db.Integer,nullable=False)
+    # ye likha service id hain par actually professionalid hain
     remark = db.Column(db.String)
     star = db.Column(db.String)
 
