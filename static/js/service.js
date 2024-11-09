@@ -6,9 +6,34 @@ const { createRouter, createWebHistory } = VueRouter;
 
 const Dashbord = {
     template: `
-        <div>
-        <br><br><br><br>
-        {{data}}
+        <h1 style="margin-top:100px;margin-left:40%;">Service Requests</h1>
+        <div v-for="(item,key) in data" class="inrev">
+            <div class="dets">
+                <img :src="item.profilepic">
+                <br><br>
+                <p><span>Name: </span>{{item.Name}}</p>
+                <p><span>Address: </span>{{item.Address}}</p>
+                <p><span>Pincode: </span>{{item.Pincode}}</p>
+            </div>
+            <div class="inrevdets">
+                <h2 style="margin-left:82px;">Requests</h2>
+                <br>
+                <div class="border">
+                    <br>
+                    <p><span>Payment: </span>{{item.Payment}}</p>
+                    <br>
+                    <p><span>Details: </span>{{item.Details}}</p>
+                    <br>
+                    <p><span>By: </span><a :href="'profile/'+item.username">{{item.username}}</a></p>
+                </div>
+            </div>
+
+            <div class="inrevbuts">
+                <button style="background-color:lightgreen;" @click="accept(key)">Accept</button>
+                <br><br>
+                <button style="background-color:orange;" @click="reject(key)">Reject</button>
+            </div>
+
         </div>
     `,
     data(){
@@ -22,6 +47,35 @@ const Dashbord = {
             const data1 = await response.json();
             this.data = data1;
         },
+        async accept(key){
+
+            const data = {
+                key:key,
+                del:false
+            };
+            const response = await fetch('/changeser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            this.fetchdata();
+        },
+        async reject(key){
+            const data = {
+                key:key,
+                del:true
+            };
+            const response = await fetch('/changeser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            this.fetchdata();
+        }
     },
     mounted(){
         this.fetchdata();

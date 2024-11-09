@@ -20,41 +20,20 @@ Core Functionalities
 You can either use Flask security (session or token) or JWT based Token based authentication to implement role-based access control
 The app must have a suitable model to store and differentiate all the types of users of the app.
 
-
-2. Admin Dashboard - for the Admin
-
-
-Admin login redirects to admin dashboard
-Admin will manage all the users (customers/service professional)
-Admin will approve a service professional after verification of profile docs
-Admin will block customer/service professional based on fraudulent activity/poor reviews
-
 3. Service Management - for the Admin
 
-
-Create a new service with a base price.
 Update an existing service - e.g. name, price, time_required and/or other fields
 Delete an existing service
 
 4. Service Request - for the customers
 
-
-Create a new service request based on the services available
 Edit an existing service request - e.g. date_of_request, completion status, remarks etc
 Close an existing service request.
 
-5. Search for available services
-
-
-The customers should be able to search for available services based on their location, name, pin code etc.
-The admin should be able to search for a professional to block/unblock/review them.
-
 6. Take action on a particular service request - for the service professional
 
+Ability to close the service request once completed
 
-Ability to view all the service requests from all the customers
-Ability to accept/reject a particular service request
-Ability to close the service request once completed*
 7. Backend Jobs
 
 a. Scheduled Job - Daily reminders - The application should send daily reminders to service professionals on g-chat using Google Chat Webhooks or SMS or mail
@@ -88,11 +67,6 @@ API Performance
 this is whats left from Core
 *****************
 
-admin will manage all the users
-add option to block
-
-admin will allow the professional for the first time they login
-implement using the isactive 
 
 give admin option to update existing service : name,price etc.
 
@@ -100,9 +74,11 @@ im not sure if i should do this, but in the pdf it is also told to
 edit an existing service request , this does not sound so nice
 , also add close an existing request
 
-Proffesional should be able to see the service request from customers
-ability to accept/reject them.
+update price ka option daldo , all you have to do is take input the normal way
+and this time just update if it already exists
 
+only site stats , previous service list , profile(self with edit, others) 
+, completion of service and give admin option to update
 
 Hard part : 
 the application should send daily reminders to service professional 

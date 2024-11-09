@@ -130,10 +130,37 @@ def index(app):
         for i in serv:
             if i.isactive!=0:
                 continue
-
             d[i.ID] = {}
             for key,value in i.__dict__.items():
                 if not key.startswith('_'):
                     d[i.ID][key] = value
-        
+            cust = Customers.query.filter_by(ID=i.ProfessionalID).first()
+            d[i.ID]["Name"] = cust.Firstname+' '+cust.Lastname
+            d[i.ID]["Pincode"] = cust.pincode
+            d[i.ID]["Address"] = cust.address
+            
+            directory = "static/images/Profile"
+            def username(cust):
+                use = Users.query.filter_by(ID=cust.UserID).first().username
+                return use
+            
+            d[i.ID]["username"] = username(cust)
+
+            files = [f for f in os.listdir(directory) if f.startswith(username(cust)+".")]
+            if files:
+                d[i.ID]["profilepic"] = '/'+directory+'/'+files[0]
+            else:
+                d[i.ID]["profilepic"] = '/'+directory+'/default.png'
         return jsonify(d),200
+    
+    @app.route('/changeser',methods=['POST'])
+    def changestatus():
+        data = (request.json)
+        data1 = Services.query.filter_by(ID=int(data['key'])).first()
+        if data['del']:
+            data1.isactive=-1
+        else:
+            data1.isactive=1
+        db.session.add(data1)
+        db.session.commit()
+        return jsonify({'message':':)'}),200

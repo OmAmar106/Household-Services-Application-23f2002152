@@ -57,7 +57,7 @@ class Services(db.Model):
     ProfessionalID = db.Column(db.String)
     Payment = db.Column(db.Integer,nullable=False)
     Details = db.Column(db.String)
-    isactive = db.Column(db.Integer) 
+    isactive = db.Column(db.Integer) # 2 means completed
     startdate = db.Column(db.Date,nullable=False)
 
 class Remarks(db.Model):

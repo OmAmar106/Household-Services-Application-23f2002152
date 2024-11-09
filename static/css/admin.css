@@ -438,3 +438,125 @@ body{
 .danger:hover{
     cursor:pointer;
 }
+
+.textsearch {
+    background-color: transparent;
+    margin-left:90px;
+    outline:none;
+    width: 170px;
+    border: none; 
+    border-bottom: 2px solid black; 
+    padding: 5px;
+    font-size: 16px; 
+}
+
+.textsearch::placeholder {
+    color: black; 
+    opacity: 1;
+}
+
+.inservice{
+    border: solid black;
+    border-radius: 10px;
+    margin: 200px;
+    width: 1150px;
+    margin-top : 70px;
+    background-color: lightcoral;
+    height: 300px;
+}
+
+.details1{
+    margin-left:0%;
+}
+
+.search1 h2{
+    color:blue;
+}
+
+.search1 p{
+    color:black;
+}
+
+.search1 .user-card:before {
+    content: '';
+    position: absolute;
+    height: 300%;
+    width: 400px;
+    background: #262626;
+    top: -200px;
+    left: -108px;
+    z-index: 0;
+    transform: rotate(7deg);
+}
+
+.options{
+    position:absolute;
+    margin-top:230px;
+    margin-right:600px;
+    text-align: center;
+}
+
+.options button{
+    width:170px;
+    height:40px;
+    background-color: lightgreen;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.options button:hover{
+    background-color: green;
+    transition: 0.4s;
+}
+
+.enterdets{
+    position: absolute;
+    bottom: 150px;
+    z-index: 5;
+    background-color: white;
+    padding: 20px;
+    border: solid black;
+    border-radius: 3px;
+}
+
+.reviews{
+    position: absolute;
+    width: 100%;
+    bottom:0px;
+    left: 0px;
+    height:100%;
+    z-index: 5;
+    background-color: lightgray;
+    overflow-y: scroll;
+}
+
+.reviews button{
+    position: absolute;
+    top:20px;
+    left:20px;
+    width:70px;
+    height:40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.reviews button:hover{
+    height:42px;
+    width:74px;
+    top:18px;
+    left:18px;
+}
+
+button img{
+    width:auto;
+    height:100%;
+}
+
+.comment{
+    border: solid black;
+    padding:10px;
+    margin:30px;
+    background-color: gray;
+}

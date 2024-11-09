@@ -431,3 +431,62 @@ body{
     color: black; 
     opacity: 1;
 }
+
+.inrev{
+    margin:330px;
+    margin-top:70px;
+    margin-bottom:70px;
+    background: linear-gradient(45deg, rgba(255, 182, 193, 0.6), rgba(255, 223, 186, 0.6), rgba(173, 216, 230, 0.6));
+    height:400px;
+    border: solid gray 4px;
+    border-radius: 20px;
+}
+
+.inrev img{
+    border-radius: 20px;
+}
+
+.inrev .dets{
+    margin: 20px;
+    width: 230px;
+}
+
+.dets span{
+    font-weight: bold;
+}
+
+.dets{
+    float:left;
+}
+
+.inrevdets{
+    float:left;
+    margin: 20px;
+    width: 230px;
+    margin-left:40px;
+    height:300px;
+}
+
+.inrevdets span{
+    font-weight: bold;
+}
+
+.border{
+    border: solid black 3px;
+    padding:15px;
+    height:100%;
+    width:270px;
+}
+
+.inrevbuts{
+    float:left;
+    margin-left:65px;
+    margin-top:32%;
+}
+
+.inrevbuts button{
+    height:40px;
+    width:160px;
+    cursor: pointer;
+    border-radius: 2px;
+}
