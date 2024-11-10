@@ -583,12 +583,50 @@ const Book = {
     }
 }
 
+const Stats = {
+    props: {
+        data: {
+            type: Object,
+            required: true
+        },
+    },
+    template: `
+        <div style="text-align:center;margin-top:80px;">
+            <br><br>
+            <h1> Site Stats </h1>
+            <br><br>
+            <img id="pieChart" src="" alt="Bar Chart" style="float:left;margin-left:90px;">
+            <img id="pieChart1" src="" alt="Bar Chart" style="float:left;margin-left:50px;">
+            <br>
+            <img id="hist" src="" alt="Bar Chart" style="float:left;margin-left:90px;width:40%;height:auto;">
+            <img id="pie3" src="" alt="Bar Chart" style="float:left;margin-left:90px;width:40%;height:auto;">
+            <br><br>
+        </div>
+    `,
+    methods:{
+        async fetchdata(){
+            fetch('/getstats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('pieChart').src = 'data:image/png;base64,' + data.pie;
+                document.getElementById('pieChart1').src = 'data:image/png;base64,' + data.pie1;
+                document.getElementById('hist').src = 'data:image/png;base64,' + data.hist;
+                document.getElementById('pie3').src = 'data:image/png;base64,' + data.pie3;
+            })
+            .catch(error => console.error('Error fetching graphs:', error));
+        }
+    },
+    mounted(){
+        this.fetchdata();
+    }
+}
 const routes = [
     { path: '/', redirect: '/admin' }, //temporarily 
     { path: '/admin', component: Dashbord },
     { path: '/admin/createservice', component: CreateServ},
     { path: '/admin/user', component: Search},
     { path: '/admin/browseservice', component: Book},
+    { path: '/admin/stats', component: Stats},
 ];
 
 //Router

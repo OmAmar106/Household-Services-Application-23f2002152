@@ -67,12 +67,10 @@ API Performance
 this is whats left from Core
 *****************
 
-im not sure if i should do this, but in the pdf it is also told to 
-edit an existing service request , this does not sound so nice
 , also add close an existing request
 
-only site stats , previous service list , profile(self with edit, others) 
-, completion of service and give admin option to update
+only site stats , profile(self with edit, others) 
+, completion of service and give admin option to delete an existing service
 
 Hard part : 
 the application should send daily reminders to service professional 
@@ -88,5 +86,3 @@ The rest is the stuff i tihnk is imp, just add that like site stats and
 all that stuff.
 
 add celery and redis if time left
-
-add as much as you can before 30th, if possible before 14th
