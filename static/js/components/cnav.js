@@ -22,7 +22,7 @@ export default {
         </div>
         <router-link to="/customer/search"><button class="link"> Search Users </button></router-link>
         <router-link to="/customer/book"><button class="link"> Book Services </button></router-link>
-        <router-link to="/customer"><button class="link"> Dashboard </button></router-link>
+        <router-link to="/customer"><button class="link"> Dashbord </button></router-link>
     </div>
     <a href="/" style="position:absolute;"> <img src="static/images/icon.jpg" width="70px" height="70px" style="margin:5px;border-radius:20px;margin-left:15px;"> </a>
 

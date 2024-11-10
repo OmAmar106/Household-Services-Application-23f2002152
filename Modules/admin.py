@@ -31,7 +31,11 @@ def index(app):
         # print(Details)
         # print(BasePay)
         if ServiceList.query.filter_by(Service=ServiceName).first():
-            return jsonify({'message':'Service already exists'}),400
+            f = ServiceList.query.filter_by(Service=ServiceName).first()
+            f.BasePayment = BasePay
+            f.Details = Details
+            db.session.commit()
+            return jsonify({'message':'Payment and Details Updated Successfully'}),200
         newservice = ServiceList(Service=ServiceName,Details=Details,BasePayment=BasePay)
         db.session.add(newservice)
         db.session.commit()

@@ -24,7 +24,7 @@ const Dashbord = {
                     <br>
                     <p><span>Details: </span>{{item.Details}}</p>
                     <br>
-                    <p><span>By: </span><a :href="'profile/'+item.username">{{item.username}}</a></p>
+                    <p><span>By: </span><a :href="'/profile/'+item.username">{{item.username}}</a></p>
                 </div>
             </div>
 
@@ -74,6 +74,100 @@ const Dashbord = {
                 },
                 body: JSON.stringify(data)
             });
+            this.fetchdata();
+        }
+    },
+    mounted(){
+        this.fetchdata();
+    }
+}
+
+const Previous = {
+    template: `
+        <h1 style="margin-top:100px;margin-left:40%;">Past Requests</h1>
+
+        <div v-for="(item,key) in data" class="inrev">
+            <div class="dets">
+                <img :src="item.profilepic">
+                <br><br>
+                <p><span>Name: </span>{{item.Name}}</p>
+                <p><span>Address: </span>{{item.Address}}</p>
+                <p><span>Pincode: </span>{{item.Pincode}}</p>
+            </div>
+            <div class="inrevdets">
+                <h2 style="margin-left:82px;">Request</h2>
+                <br>
+                <div class="border">
+                    <p><span>Payment: </span>{{item.Payment}}</p>
+                    <br>
+                    <p><span>Date: </span>{{new Date(item.startdate).toLocaleDateString('en-GB')}}</p>
+                    <br>
+                    <p><span>Details: </span></p>
+                    <textarea :id="key" style="width:100%;height:80px;">{{item.Details}}</textarea>
+                    <br>
+                    <p><span>By: </span><a :href="'/profile/'+item.username">{{item.username}}</a></p>
+                    <br>
+                    <button @click="update(key)" style="background-color:lightblue;margin-left:59px;width:100px;height:40px;">Update</button>
+                </div>
+            </div>
+
+            <div class="inrevbuts" style="margin-right:30px;">
+                <div v-if="item.isactive==1">
+                    <p>This is an Ongoing Service.</p>
+                    <p>You may edit the Details.</p>
+                    <br>
+                    <button style="background-color:green;">Ongoing</button>
+                </div>
+                <div v-if="item.isactive==0">
+                    <p>This is an Unread Service.</p>
+                    <p>You may edit the Details.</p>
+                    <br>
+                    <button style="background-color:lightblue;">In Review</button>
+                </div>
+                <div v-if="item.isactive==-1">
+                    <p>This is a Rejected Service.</p>
+                    <p>You may edit the Details.</p>
+                    <br>
+                    <button style="background-color:red;">Rejected</button>
+                </div>
+                <div v-if="item.isactive==2">
+                    <p>This is a Closed Service.</p>
+                    <p>You may edit the Details.</p>
+                    <br>
+                    <button style="background-color:lightgreen;">Completed</button>
+                </div>
+            </div>
+
+        </div>
+    `,
+    data(){
+        return{
+            data: [],
+        }
+    },
+    methods:{
+        async fetchdata(){
+            let response = await fetch('/servicegetall');
+            const data1 = await response.json();
+            this.data = data1;
+        },
+        async update(key){
+            
+            const element = document.getElementById(key);
+            const value1 = element.value;
+            
+            const data = {
+                key:key,
+                value:value1
+            };
+            const response = await fetch('/changedetsserv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
             this.fetchdata();
         }
     },
@@ -233,6 +327,7 @@ const routes = [
     { path: '/', redirect: '/service' }, //temporarily 
     { path: '/service', component: Dashbord },
     { path: '/service/search', component: Search },
+    { path: '/service/previous', component: Previous },
 ];
 
 //Router

@@ -67,15 +67,9 @@ API Performance
 this is whats left from Core
 *****************
 
-
-give admin option to update existing service : name,price etc.
-
 im not sure if i should do this, but in the pdf it is also told to 
 edit an existing service request , this does not sound so nice
 , also add close an existing request
-
-update price ka option daldo , all you have to do is take input the normal way
-and this time just update if it already exists
 
 only site stats , previous service list , profile(self with edit, others) 
 , completion of service and give admin option to update
