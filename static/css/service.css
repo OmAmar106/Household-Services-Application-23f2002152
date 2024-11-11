@@ -490,3 +490,115 @@ body{
     cursor: pointer;
     border-radius: 2px;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-pic-container {
+    flex: 1;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.profile-pic-container img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 5px solid #4CAF50;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-pic-container img:hover {
+    transform: scale(1.1);
+}
+
+.profile-info {
+    flex: 2;
+}
+
+.profile-info h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+.profile-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-info table th,
+.profile-info table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.profile-info table th {
+    background-color: #f8f8f8;
+}
+
+/* Status Colors */
+.status-active {
+    color: green;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: red;
+    font-weight: bold;
+}
+
+.services-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.services-info h3 {
+    color: #333;
+}
+
+.services-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.services-info table th,
+.services-info table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.services-info table th {
+    background-color: #f2f2f2;
+}

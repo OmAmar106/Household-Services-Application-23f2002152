@@ -193,15 +193,138 @@ const Ongoing = {
 const Profile = {
     props: {
         user: {
-          type: Object
+          type: Object,
+          required: true
         },
     },
     template: `
-        <div style="margin-top:70px">
-            {{user}}
+    <div v-if="d">
+        <br><br><br>
+        <div class="container">
+            <div class="profile-header">
+                <h1>Profile Information</h1>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-pic-container">
+                    <img :src="d.dets.profilepic" alt="Profile Picture">
+                    <div class="change-profile-pic">
+                        <input type="file" @change="onFileChange" accept="image/*">
+                        <button @click="uploadProfilePicture">Change Profile Picture</button>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h3>Personal Information</h3>
+                    <table>
+                    <tr>
+                        <th>User ID</th>
+                        <td>{{ d.dets.UserID }}</td>
+                    </tr>
+                    <tr v-if="d.dets.type === 'C'">
+                        <th>First Name</th>
+                        <td>{{ d.dets.Firstname }}</td>
+                    </tr>
+                    <tr v-if="d.dets.type === 'C'">
+                        <th>Last Name</th>
+                        <td>{{ d.dets.Lastname }}</td>
+                    </tr>
+                    <tr v-else>
+                        <th>Company Name</th>
+                        <td>{{ d.dets.company }}</td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ d.dets.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ d.dets.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ d.dets.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pincode</th>
+                        <td>{{ d.dets.pincode }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td :class="d.dets.isactive === 1 ? 'status-active' : 'status-inactive'">
+                            {{ d.dets.isactive === 1 ? 'Active' : 'Inactive' }}
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            </div>
+
+            <div class="services-info">
+                <h3>Services Information</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Details</th>
+                            <th>Start Date</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="service in Object.values(d.Services)" :key="service.ID">
+                            <td>{{ service.name }}</td>
+                            <td>{{ service.Details }}</td>
+                            <td>{{ service.startdate }}</td>
+                            <td>{{ service.Payment }}</td>
+                            <td :class="service.isactive >= 1 ? 'status-active' : 'status-inactive'">
+                                <span v-if="service.isactive === 1">Active</span>
+                                <span v-else-if="service.isactive === 2">Completed</span>
+                                <span v-else-if="service.isactive === 0">In Review</span>
+                                <span v-else>Rejected</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    `
+    </div>
+    `,
+    data(){
+        return{
+            d: false,
+            selectedFile: null
+        }
+    },
+    methods: {
+        async fetchdata() {
+            let response = await fetch('/getprofile/' + this.user.username);
+            const data1 = await response.json();
+            this.d = data1;
+            console.log(data1);
+        },
+        onFileChange(event) {
+            this.selectedFile = event.target.files[0];
+        },
+        async uploadProfilePicture() {
+            if (!this.selectedFile) {
+                alert("Please select a file first.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("profilepic", this.selectedFile);
+            let response = await fetch('/updateProfilePicture',{
+                method: 'POST',
+                body: formData
+            });
+            this.fetchdata();
+        }
+    },
+    mounted() {
+        this.fetchdata();
+    }
 }
+
 
 /* user srch start */
 

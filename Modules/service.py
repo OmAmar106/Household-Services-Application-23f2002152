@@ -134,7 +134,7 @@ def index(app):
             for key,value in i.__dict__.items():
                 if not key.startswith('_'):
                     d[i.ID][key] = value
-            cust = Customers.query.filter_by(ID=i.ProfessionalID).first()
+            cust = Customers.query.filter_by(ID=i.customerID).first()
             d[i.ID]["Name"] = cust.Firstname+' '+cust.Lastname
             d[i.ID]["Pincode"] = cust.pincode
             d[i.ID]["Address"] = cust.address
@@ -211,8 +211,21 @@ def index(app):
         data1 = Services.query.filter_by(ID=int(data['key'])).first()
         data1.isactive = 2
         db.session.commit()
-        newremarks = Remarks(serviceID=data['key'],remark=data['value'],star=data['value1'])
+        newremarks = Remarks(serviceID=data1.ProfessionalID,remark=data['value'],star=data['value1'])
+        user = Professional.query.filter_by(ID=data1.ProfessionalID).first()
+        user.Reveiwsum += int(data['value1'])
+        user.Reveiwcount += 1
         db.session.add(newremarks)
         db.session.commit()
         return jsonify({'message':':)'}),200
+    
+    @app.route('/deserv',methods=['POST'])
+    def deleteservice():
+        data = request.json
+        serv = ServiceList.query.filter_by(Service=data['ServiceName']).first()
+        if Professional.query.filter_by(ServicelistID=serv.ID).first():
+            return jsonify({'message':'This Service is being used'}),404
+        db.session.delete(serv)
+        db.session.commit()
+        return jsonify({'message':'Deleted Succesfully'}),200
         

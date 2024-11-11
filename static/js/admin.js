@@ -204,6 +204,72 @@ const CreateServ = {
     }
 }
 
+const DelServ = {
+    template: `
+        <div class="innerd formcontainer">
+            <br><br>
+            <p class="title"> Delete Service </p>
+            <br><br><br><br><br><br>
+            <form @submit.prevent="func1()">
+
+                <select v-model="ServiceName" class="textsearch" style="width:300px;margin-right:90px;">
+                    <option v-for="(item,index) in services" :key="index" :value="item">
+                        {{item}}
+                    </option>
+                </select>
+
+                <br><br><br><br><br><br>
+                <input type="submit" class="inps">
+                
+                <br><p class="error" id="colorerror" style="margin-top:9px;">{{message}}</p>
+            </form>
+            <br>
+            <p></p>
+        </div>
+    `,
+    data(){
+        return {
+            ServiceName:'',
+            message:'',
+            services:[]
+        };
+    },
+    methods: {
+        async func1(){
+            const data = {
+                ServiceName: this.ServiceName,
+            };
+            const response = await fetch('/deserv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            // console.log(data);
+            // console.log(response);
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                document.getElementById('colorerror').style.color = 'red';
+                this.message = errorResponse.message;
+            } else {
+                const success = await response.json();
+                document.getElementById('colorerror').style.color = 'green';
+                this.message = success.message;               
+            }
+            this.fetchdata();
+        },
+        async fetchdata(){
+            let response = await fetch('/listservice');
+            const data1 = await response.json();
+            this.services = data1;
+        }
+    },
+    mounted(){
+        this.fetchdata();
+    }
+}
+
 
 const Customer = {
     props: {
@@ -627,6 +693,7 @@ const routes = [
     { path: '/admin/user', component: Search},
     { path: '/admin/browseservice', component: Book},
     { path: '/admin/stats', component: Stats},
+    { path: '/admin/deleteservice', component: DelServ},
 ];
 
 //Router

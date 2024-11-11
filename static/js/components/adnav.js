@@ -9,6 +9,8 @@ export default {
                 <router-link to="/admin/browseservice"><button class="link link2">Browse Service</button></router-link>
                 <br>
                 <router-link to="/admin/createservice"><button class="link link2">Create Service</button></router-link>
+                <br>
+                <router-link to="/admin/deleteservice"><button class="link link2">Delete Service</button></router-link>
         </div>
 
         <router-link to="/admin/user"><button class="link"> Browse Users </button></router-link>

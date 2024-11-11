@@ -67,9 +67,6 @@ API Performance
 this is whats left from Core
 *****************
 
-profile(self with edit, others) 
-,give admin option to delete an existing service
-
 Hard part : 
 the application should send daily reminders to service professional 
 on mail telling them of pending service request
@@ -79,3 +76,6 @@ closed and all that
 add an export option for admin which exports everything in csv 
 
 add celery and redis if time left
+
+before submtting , clear the database , clear the profile phots , clear then resumes present , delete this file , update requirements.txt wrt to small laptop,
+delete household wala pdf 

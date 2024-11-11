@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clean Sweep - Profile</title>
+    <link rel="icon" href="static/images/icon.jpg" type="image/x-icon">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+    <script src="https://unpkg.com/vuex@4"></script>
+    <link rel="stylesheet" href="/static/css/profile.css" />
+</head>
+
+<body>
+    <div style="position:fixed;">
+        <a href="/"><img src="/static/images/Home.png" style="height:80px;width:auto;"></a>
+    </div>
+    <div class="container">
+        <div class="profile-header">
+            <h1>Profile Information</h1>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-pic-container">
+                <img src="{{ d.dets.profilepic }}" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h3>Personal Information</h3>
+                <table>
+                    <tr>
+                        <th>User ID</th>
+                        <td>{{ d.dets.UserID }}</td>
+                    </tr>
+                    {% if d.dets.type=='C' %}                
+                        <tr>
+                            <th>First Name</th>
+                            <td>{{ d.dets.Firstname }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>{{ d.dets.Lastname }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th>Company Name</th>
+                            <td>{{ d.dets.company }}</td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ d.dets.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ d.dets.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ d.dets.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pincode</th>
+                        <td>{{ d.dets.pincode }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td class="{{ 'status-active' if d.dets.isactive == 1 else 'status-inactive' }}">
+                            {{ 'Active' if d.dets.isactive == 1 else 'Inactive' }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="services-info">
+            <h3>Services Information</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Details</th>
+                        <th>Start Date</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in d.Services.values() %}
+                    <tr>
+                        <td>{{ service.name }}</td>
+                        <td>{{ service.Details }}</td>
+                        <td>{{ service.startdate }}</td>
+                        <td>{{ service.Payment }}</td>
+                        <td class="{{ 'status-active' if service.isactive >= 1 else 'status-inactive' }}">
+                            {% if service.isactive == 1 %}
+                            Active
+                            {% elif service.isactive == 2 %}
+                            Completed
+                            {% elif service.isactive == 0 %}
+                            In Review
+                            {% else %}
+                            Rejected
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
