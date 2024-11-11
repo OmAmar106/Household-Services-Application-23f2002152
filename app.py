@@ -20,7 +20,8 @@ def createapp():
     app.config['SECURITY_PASSWORD_SALT'] = 'UVRapoeaeaReres'
     app.config['SECURITY_SEND_REGISTER_EMAIL'] = False
     db.init_app(app)
-    cache = Cache(app)
+    cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+    cache.init_app(app)
     app.config['SECURITY_LOGIN_URL'] = '/undetermined'
     app.config['SECURITY_REGISTERABLE'] = False
     app.config['SECURITY_LOGOUT_URL'] = '/undetermined'
@@ -29,9 +30,9 @@ def createapp():
     with app.app_context():
         db.create_all()
 
-    return app
+    return app,cache
 
-app = createapp()
+app,cache = createapp()
 
 @app.route('/signout')
 def logout():
@@ -76,7 +77,7 @@ def start():
     login.index(app)
     customer.index(app)
     service.index(app)
-    admin.index(app)
+    admin.index(app,cache)
 
 def initialise():
     start()

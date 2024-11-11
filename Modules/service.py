@@ -204,3 +204,15 @@ def index(app):
         data1.Details = data['value']
         db.session.commit()
         return jsonify({'message':':)'}),200
+
+    @app.route('/addremark',methods=['POST'])
+    def addremark():
+        data = request.json
+        data1 = Services.query.filter_by(ID=int(data['key'])).first()
+        data1.isactive = 2
+        db.session.commit()
+        newremarks = Remarks(serviceID=data['key'],remark=data['value'],star=data['value1'])
+        db.session.add(newremarks)
+        db.session.commit()
+        return jsonify({'message':':)'}),200
+        

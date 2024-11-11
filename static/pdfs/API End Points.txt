@@ -67,10 +67,8 @@ API Performance
 this is whats left from Core
 *****************
 
-, also add close an existing request
-
-only site stats , profile(self with edit, others) 
-, completion of service and give admin option to delete an existing service
+profile(self with edit, others) 
+,give admin option to delete an existing service
 
 Hard part : 
 the application should send daily reminders to service professional 
@@ -79,10 +77,5 @@ send monthly report for the customer having their details. number of service
 closed and all that
 
 add an export option for admin which exports everything in csv 
-
-add caching at random parts
-
-The rest is the stuff i tihnk is imp, just add that like site stats and 
-all that stuff.
 
 add celery and redis if time left

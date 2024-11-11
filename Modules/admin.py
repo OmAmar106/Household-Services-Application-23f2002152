@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, jsonify
 from flask import session
 from flask import url_for
 from functools import wraps
+from flask_caching import Cache
 from model import *
 import io
 import base64
@@ -16,7 +17,7 @@ def login_required(f):
     return decorated_function
 
 
-def index(app):
+def index(app,cache):
 
     @app.route('/admin')
     @login_required
@@ -53,11 +54,11 @@ def index(app):
             user.isactive = 1
         db.session.commit()
         return jsonify({'message':':)'}),200
-
-    @app.route('/getstats',methods=['GET'])
+    
     @login_required
+    @app.route('/getstats',methods=['GET'])
+    @cache.cached(timeout=100)
     def stats():
-        
         def fig_to_base64(fig):
             img = io.BytesIO()
             fig.savefig(img, format='png', transparent=True)

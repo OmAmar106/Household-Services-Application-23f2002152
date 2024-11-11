@@ -6,7 +6,7 @@ const { createRouter, createWebHistory } = VueRouter;
 
 const Dashbord = {
     template: `
-        <h1 style="margin-top:100px;margin-left:40%;">Past Requests</h1>
+        <h1 style="margin-top:100px;margin-left:44%;">Past Requests</h1>
 
         <div v-for="(item,key) in data" class="inrev">
             <div class="dets">
@@ -91,6 +91,98 @@ const Dashbord = {
             });
             
             this.fetchdata();
+        }
+    },
+    mounted(){
+        this.fetchdata();
+    }
+}
+
+const Ongoing = {
+    template: `
+        <h1 style="margin-top:100px;margin-left:44%;">Past Requests</h1>
+
+        <div v-for="(item,key) in data">
+            <div v-if="item.isactive==1"  class="inrev">
+                <div class="dets">
+                    <img :src="item.profilepic">
+                    <br><br>
+                    <p><span>Name: </span>{{item.Name}}</p>
+                    <p><span>Address: </span>{{item.Address}}</p>
+                    <p><span>Pincode: </span>{{item.Pincode}}</p>
+                </div>
+                <div class="inrevdets">
+                    <h2 style="margin-left:82px;">Request</h2>
+                    <br>
+                    <div class="border">
+                        <p><span>Payment: </span>{{item.Payment}}</p>
+                        <br>
+                        <p><span>Date: </span>{{new Date(item.startdate).toLocaleDateString('en-GB')}}</p>
+                        <br>
+                        <p><span>Details: </span></p>
+                        <textarea :id="key" style="width:100%;height:80px;">{{item.Details}}</textarea>
+                        <br>
+                        <p><span>For: </span><a :href="'/profile/'+item.username">{{item.username}}</a></p>
+                        <br>
+                        <!-- <button @click="update(key)" style="background-color:lightblue;margin-left:59px;width:100px;height:40px;">Update</button>-->
+                    </div>
+                </div>
+
+                <div class="inrevbuts1" style="float:right;">
+                    <h2>Close Service</h2>
+                    <br>
+                    <input type="number" :id="'num'+key" placeholder="Enter Rating" style="margin-top:10px;">
+                    <br><br>
+                    <textarea :id="'remrk'+key" placeholder="Enter Remarks Here"></textarea>
+                    <br><br>
+                    <button style="background-color:red;" @click="update(key)">Close Service?</button>
+                    <br>
+                    <p style="color:red">{{ message }}</p>
+                </div>
+            </div>
+        </div>
+    `,
+    data(){
+        return{
+            data: [],
+            message: ''
+        }
+    },
+    methods:{
+        async fetchdata(){
+            let response = await fetch('/customgetall');
+            const data1 = await response.json();
+            this.data = data1;
+        },
+        async update(key){
+            
+            const element = document.getElementById('remrk'+key);
+            const value1 = element.value;
+
+            const element1 = document.getElementById('num'+key);
+            const value2 = element1.value;
+            
+            if(value2>5||value2<0){
+                this.message = 'Rate from 0 to 5';
+                return;
+            }
+
+            const data = {
+                key:key,
+                value:value1,
+                value1:value2,
+            };
+
+            const response = await fetch('/addremark', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            this.fetchdata();
+            return;
         }
     },
     mounted(){
@@ -477,7 +569,8 @@ const routes = [
     { path: '/customer', component: Dashbord },
     { path: '/customer/profile', component: Profile},
     { path: '/customer/search', component: Search},
-    { path: '/customer/book', component: Book}
+    { path: '/customer/book', component: Book},
+    { path: '/customer/ongoing', component: Ongoing}
 ];
 
 //Router
