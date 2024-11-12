@@ -14,9 +14,8 @@ timezone = "UTC"
 # Step 2 : sudo apt install redis-server
 # Step 3 : sudo apt-get -y install golang-go
 # Step 4 : go install github.com/mailhog/MailHog@latest
+
 # Step 5 : ~go/bin/MailHog
-
-
 # Step 6 : redis-server --port 6380
 # Step 7 : celery -A app.cel worker -l INFO
 # Step 8 : celery -A app.cel beat -l INFO

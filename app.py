@@ -32,15 +32,32 @@ def createapp():
     with app.app_context():
         db.create_all()
 
-        users = Users.query.all()
+        users = Customers.query.all()
 
         for user in users:
             user_id = user.ID
-            message = 'om'
+            acuser = Users.query.filter_by(ID=user.UserID).first()
+            alservice = Services.query.filter_by(customerID=user_id).all()
+            message = "Your Ongoing Services\n\n"
+            count = 1
+            for i in alservice:
+                if i.isactive==1:
+                    message += "No. "+str(count)+":"
+                    message += "\nFrom : "+acuser.username+"\n"
+                    name = Professional.query.filter_by(ID=i.ProfessionalID).first().UserID
+                    name = Users.query.filter_by(ID=name).first().username
+                    message += "To : "+name+"\n"
+                    message += "Service : "+ServiceList.query.filter_by(ID=Professional.query.filter_by(ID=i.ProfessionalID).first().ServicelistID).first().Service+"\n"
+                    message += "Details : "+i.Details+"\n"
+                    message += "StartDate : "+str(i.startdate)+"\n"
+                    message += "Payment : "+str(i.Payment)+"\n"
+                    count += 1
+                message += "\n"
+
             cel.conf.beat_schedule[f'send-task-every-month-user-{user_id}'] = {
                 'task': 'Jobs.task.monthly',
-                'schedule': crontab(minute="*",hour="*"),
-                'args': (user.email,'Your Monthly Report',message),
+                'schedule': crontab(minute="0",hour="0",day_of_month="1"),
+                'args': (acuser.email,'Your Monthly Report',message),
             }
  
     # from datetime import timedelta

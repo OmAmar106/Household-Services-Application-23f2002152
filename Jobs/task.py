@@ -15,7 +15,7 @@ def monthly(email,subject,message):
     msg["To"] = email
     msg["From"] = SENDER_EMAIL
     msg["Subject"] = subject
-    msg.attach(MIMEText(message,"html"))
+    msg.attach(MIMEText(message,"plain"))
     server = smtplib.SMTP(host=SMTP_SERVER_HOST,port=SMTP_SERVER_PORT)
     server.login(user=SENDER_EMAIL,password=SENDER_PASSWORD)
     server.send_message(msg)
