@@ -721,3 +721,8 @@ body {
 .services-info table th {
     background-color: #f2f2f2;
 }
+
+.dets img{
+    width:225px;
+    height:209px;
+}

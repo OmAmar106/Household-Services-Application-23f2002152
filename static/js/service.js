@@ -357,7 +357,7 @@ const Professional = {
                         <img :src="data.profilepic"/>
                     </div>
                     <div class="user-card-info seller">
-                        <h2>{{data.username}} <span style="margin-left:235px;">{{data.Reveiwsum/data.Reveiwcount}}/5&#11088;</span></h2>
+                        <h2>{{data.username}} <span style="float:right;margin-right:20px;">{{data.Reveiwsum/data.Reveiwcount}}/5&#11088;</span></h2>
                         <hr style="border: 1.5px solid purple; margin: 10px 0;">
                         <br>
                         <p><span>Company:</span> {{data.company}}</p>

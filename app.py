@@ -10,7 +10,7 @@ import os
 from sqlalchemy import or_
 
 def createapp():
-    app = Flask(__name__, static_folder='static')
+    app = Flask(__name__, static_folder='static', template_folder = 'Templates')
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///household.sqlite3"
   
     app.config['CACHE_TYPE'] = 'SimpleCache'

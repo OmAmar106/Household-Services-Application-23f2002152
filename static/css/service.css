@@ -115,6 +115,10 @@ body{
     opacity: 1;
 } */
 
+.dets img{
+    width: 225px;
+    height: 209px;
+}
 .info{
     background-color: white;
     opacity:0.9;
