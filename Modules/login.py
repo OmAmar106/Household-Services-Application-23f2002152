@@ -5,6 +5,9 @@ from Modules.password import *
 from functools import wraps
 from model import *
 from sqlalchemy import or_
+from Jobs.worker import cel
+import Jobs.task as task
+from celery.schedules import crontab
 
 def login_notrequired(f):
     @wraps(f)
@@ -51,6 +54,7 @@ def index(app):
         session['islogin'] = True
         session['type'] = 'C'
         session['username'] = username
+        task.monthly.delay(email,'Welcome','Hello '+username+', Wecome To Clean Sweep')
         return jsonify({'message': ':)'}),200
     
     @app.route('/add_professional', methods=['POST'])
@@ -79,6 +83,7 @@ def index(app):
         session['islogin'] = True
         session['type'] = 'S'
         session['username'] = username
+        task.monthly.delay(email,'Welcome','Hello '+username+', Wecome To Clean Sweep')
         return jsonify({'message': ':)'}),200
 
     @app.route('/check',methods=['POST'])

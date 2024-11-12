@@ -1,20 +1,3 @@
-/add_customer - POST
-input : password,firstname,lastname,address,pincode,username,email
-
-/add_professional - POST
-input : almost same as above with exp and compname
-
-/check - POST 
-input : username , password 
-
-
-Initially , give every seller isactive = 0 , until admin approves document.
-
-also do cross check if add professional is working or not
-also always refer to service as task
-
-
-
 Core Functionalities
 
 You can either use Flask security (session or token) or JWT based Token based authentication to implement role-based access control

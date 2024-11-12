@@ -5,6 +5,9 @@ from functools import wraps
 from model import *
 import os
 from datetime import datetime
+from Jobs.worker import cel
+import Jobs.task as task
+from celery.schedules import crontab
 
 def login_required(f):
     @wraps(f)
@@ -115,6 +118,9 @@ def index(app):
         prof = Professional.query.filter_by(UserID=int(data['seller'])).first()
         find = Users.query.filter_by(username=session['username']).first()
         newser = Services(servicelistID=prof.ServicelistID,customerID=Customers.query.filter_by(UserID=find.ID).first().ID,ProfessionalID=prof.ID,Payment=data['BasePay'],Details=data['Details'],isactive=0,startdate=datetime.today().date())
+        
+        task.monthly.delay(Users.query.filter_by(ID=int(data['seller'])).first().email,'Service Request','You have a New Service Request.')
+        
         db.session.add(newser)
         db.session.commit()
         return jsonify({'message':':)'}),200
@@ -217,6 +223,9 @@ def index(app):
         user.Reveiwcount += 1
         db.session.add(newremarks)
         db.session.commit()
+
+        task.monthly.delay(Users.query.filter_by(ID=user.UserID).first().email,'Service Ended',session['username']+' Marked the Service as over.')
+
         return jsonify({'message':':)'}),200
     
     @app.route('/deserv',methods=['POST'])

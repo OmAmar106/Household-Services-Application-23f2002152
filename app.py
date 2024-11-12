@@ -8,11 +8,13 @@ import Modules.admin as admin
 from flask_security import Security, SQLAlchemyUserDatastore, login_required
 import os
 from sqlalchemy import or_
+from Jobs.worker import cel
+import Jobs.task as task
+from celery.schedules import crontab
 
 def createapp():
     app = Flask(__name__, static_folder='static', template_folder = 'Templates')
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///household.sqlite3"
-  
     app.config['CACHE_TYPE'] = 'SimpleCache'
     app.config['CACHE_DEFAULT_TIMEOUT'] = 300  
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,9 +32,31 @@ def createapp():
     with app.app_context():
         db.create_all()
 
+        users = Users.query.all()
+
+        for user in users:
+            user_id = user.ID
+            message = 'om'
+            cel.conf.beat_schedule[f'send-task-every-month-user-{user_id}'] = {
+                'task': 'Jobs.task.monthly',
+                'schedule': crontab(minute="*",hour="*"),
+                'args': (user.email,'Your Monthly Report',message),
+            }
+ 
+    # from datetime import timedelta
+    # cel.conf.beat_schedule = {
+    #     'sum-every-10-seconds': {
+    #         'task': 'Jobs.task.sum',
+    #         'schedule': timedelta(seconds=10),
+    #         # crontab(seconds=10),
+    #         'args': (5, 5),
+    #     },
+    # }
+
     return app,cache
 
 app,cache = createapp()
+
 
 @app.route('/signout')
 def logout():
