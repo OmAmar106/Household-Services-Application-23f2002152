@@ -12,7 +12,7 @@ export default {
                 <br>
                 <router-link to="/admin/deleteservice"><button class="link link2">Delete Service</button></router-link>
         </div>
-
+        <router-link to="/admin/export"><button class="link"> Export </button></router-link>
         <router-link to="/admin/user"><button class="link"> Browse Users </button></router-link>
         <router-link to="/admin/stats"><button class="link"> Site Stats </button></router-link>
         <router-link to="/admin"><button class="link"> Dashbord </button></router-link>

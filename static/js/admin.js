@@ -686,6 +686,49 @@ const Stats = {
         this.fetchdata();
     }
 }
+
+const Export = {
+    props: {
+        data: {
+            type: Object,
+            required: true
+        },
+    },
+    template: `
+        <div style="text-align:center;margin-top:80px;">
+            <h1>Export CSV</h1>
+            <br><br><br><br>
+            <button @click="download">Download CSV</button>
+        </div>
+    `,
+    methods:{
+        async download(){
+            // agar exist krta hain toh download karo
+            // then delete karo 
+            // agar exist nahi krta hain toh batch process main dalo 
+            // next time download krne se then ho jayega
+            const filePath = '/static/pdfs/data.csv';
+            const response = await fetch('/fileexist');
+            const responsef = await response.json();
+            console.log(responsef)
+            if(responsef["ok"]=="YES"){
+                this.downloadFile(filePath)
+                const response = await fetch('/delfile');
+            }
+            else{
+                alert('Batch Processing in Progress Wait.');
+                const response = await fetch('/createfile')
+            }
+        },
+        async downloadFile(url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = url.split('/').pop();
+            link.click();
+        }
+    }
+}
+
 const routes = [
     { path: '/', redirect: '/admin' }, //temporarily 
     { path: '/admin', component: Dashbord },
@@ -694,6 +737,7 @@ const routes = [
     { path: '/admin/browseservice', component: Book},
     { path: '/admin/stats', component: Stats},
     { path: '/admin/deleteservice', component: DelServ},
+    { path: '/admin/export', component: Export},
 ];
 
 //Router

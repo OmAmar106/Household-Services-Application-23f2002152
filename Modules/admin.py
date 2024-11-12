@@ -7,6 +7,10 @@ from model import *
 import io
 import base64
 import matplotlib.pyplot as plt
+import os
+from Jobs.worker import cel
+import Jobs.task as task
+from celery.schedules import crontab
 
 def login_required(f):
     @wraps(f)
@@ -125,4 +129,44 @@ def index(app,cache):
         d["pie3"] = img3_base64
 
         return jsonify(d),200
+    
+    @app.route('/delfile',methods=['GET'])
+    def delfile():
+        filename = 'data.csv'
+    
+        try:
+            file_path = os.path.join('static/pdfs', filename)
+            print(file_path)
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                return jsonify({"message": f"File '{filename}' deleted successfully."}), 200
+            else:
+                return jsonify({"error": "File not found."}), 404
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    
+    @app.route('/fileexist',methods=['GET'])
+    def fileexist():
+        if os.path.exists('static/pdfs/data.csv'):
+            return jsonify({"ok":"YES"}), 200
+        else:
+            return jsonify({"ok":"NO"}), 404
+        
+    @app.route('/createfile',methods=['GET'])
+    def fileexist1():
+        L = []
+        for i in Services.query.all():
+            cust = Customers.query.filter_by(ID=i.customerID).first().UserID
+            sell = Professional.query.filter_by(ID=i.ProfessionalID).first().UserID
+            L.append({"Service":ServiceList.query.filter_by(ID=i.servicelistID).first().Service,
+                      "Customer":Users.query.filter_by(ID=cust).first().username,
+                      "Professional":Users.query.filter_by(ID=sell).first().username,
+                      "ProfessionalID":sell,
+                      "CustomerID":cust,
+                      "Payment":i.Payment,
+                      "Details":i.Details,
+                      "isactive":i.isactive,
+                      })
+        task.exportcsv.delay(L)
+        return jsonify({"ok":"YES"}), 200
         
