@@ -17,7 +17,7 @@ const Dashbord = {
                 <p><span>Pincode: </span>{{item.Pincode}}</p>
             </div>
             <div class="inrevdets">
-                <h2 style="margin-left:82px;">Request</h2>
+                <h2 style="margin-left:78px;">Request</h2>
                 <br>
                 <div class="border">
                     <p><span>Payment: </span>{{item.Payment}}</p>
@@ -33,7 +33,7 @@ const Dashbord = {
                 </div>
             </div>
 
-            <div class="inrevbuts" style="margin-right:30px;">
+            <div class="inrevbuts" style="margin-right:0px;">
                 <div v-if="item.isactive==1">
                     <p>This is an Ongoing Service.</p>
                     <p>You may edit the Details.</p>
@@ -100,7 +100,7 @@ const Dashbord = {
 
 const Ongoing = {
     template: `
-        <h1 style="margin-top:100px;margin-left:44%;">Past Requests</h1>
+        <h1 style="margin-top:100px;margin-left:44%;">Ongoing Requests</h1>
 
         <div v-for="(item,key) in data">
             <div v-if="item.isactive==1"  class="inrev">

@@ -1,3 +1,4 @@
 .myenv/
 __pycache__/
 celerybeat-schedule
+dump.rdb

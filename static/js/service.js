@@ -245,7 +245,7 @@ const Previous = {
                 </div>
             </div>
 
-            <div class="inrevbuts" style="margin-right:30px;">
+            <div class="inrevbuts" style="margin-right:0px;">
                 <div v-if="item.isactive==1">
                     <p>This is an Ongoing Service.</p>
                     <p>You may edit the Details.</p>

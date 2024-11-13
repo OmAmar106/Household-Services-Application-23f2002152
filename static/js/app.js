@@ -294,7 +294,6 @@ const routes = [
     { path: '/', redirect: '/login' }, //temporarily 
     { path: '/login', component: Login },
     { path: '/signup', component: Signup},
-    { path: '/query', component: Query}
 ];
 
 //Router
