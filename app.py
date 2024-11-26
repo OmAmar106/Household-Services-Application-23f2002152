@@ -15,9 +15,9 @@ import Jobs.task as task
 from celery.schedules import crontab
 
 def createapp():
-    app = Flask(__name__, static_folder='static', template_folder = 'Templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join('/tmp', 'database.sqlite3')}"
-    db_path = '/tmp/database.sqlite3'
+    app = Flask(__name__, static_folder='static')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join('/tmp', 'household.sqlite3')}"
+    db_path = '/tmp/household.sqlite3'
     if not os.path.exists(db_path):
         open(db_path, 'w').close()
     os.chmod(db_path, 0o777)
