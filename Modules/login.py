@@ -26,6 +26,7 @@ def index(app):
     @app.route('/')
     @login_notrequired
     def base():
+        return 'Work'
         return render_template('index.html')
 
     @app.route('/add_customer', methods=['POST'])
