@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from flask import Flask, redirect, render_template, request, jsonify, session
 from flask_caching import Cache
 from model import *
@@ -6,7 +9,6 @@ import Modules.customer as customer
 import Modules.service as service
 import Modules.admin as admin
 from flask_security import Security, SQLAlchemyUserDatastore, login_required
-import os
 from sqlalchemy import or_
 from Jobs.worker import cel
 import Jobs.task as task
@@ -14,7 +16,11 @@ from celery.schedules import crontab
 
 def createapp():
     app = Flask(__name__, static_folder='static', template_folder = 'Templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///household.sqlite3"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join('/tmp', 'database.sqlite3')}"
+    db_path = '/tmp/database.sqlite3'
+    if not os.path.exists(db_path):
+        open(db_path, 'w').close()
+    os.chmod(db_path, 0o777)
     app.config['CACHE_TYPE'] = 'SimpleCache'
     app.config['CACHE_DEFAULT_TIMEOUT'] = 300  
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
