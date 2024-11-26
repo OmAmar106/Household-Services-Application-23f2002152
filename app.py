@@ -13,6 +13,7 @@ from sqlalchemy import or_
 from Jobs.worker import cel
 import Jobs.task as task
 from celery.schedules import crontab
+from functools import wraps
 
 def createapp():
     app = Flask(__name__, static_folder='static')
@@ -80,6 +81,18 @@ def createapp():
 
 app,cache = createapp()
 
+def login_notrequired(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('islogin',False):
+            return redirect('/dashbord')
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/')
+@login_notrequired
+def base():
+    return render_template('index.html')
 
 @app.route('/signout')
 def logout():

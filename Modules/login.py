@@ -23,12 +23,6 @@ def index(app):
     def error(e):
         return redirect(url_for('base'))
 
-    @app.route('/')
-    @login_notrequired
-    def base():
-        return 'Work'
-        return render_template('index.html')
-
     @app.route('/add_customer', methods=['POST'])
     def add_user():
         data = request.json
