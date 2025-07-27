@@ -4,12 +4,44 @@
       {
         "src": "app.py",
         "use": "@vercel/python"
+      },
+      {
+        "src": "Modules/admin.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "Modules/customer.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "Modules/login.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "Modules/service.py",
+        "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
         "dest": "app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "Modules/admin.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "Modules/customer.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "Modules/login.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "Modules/service.py"
       }
     ],
     "env": {
