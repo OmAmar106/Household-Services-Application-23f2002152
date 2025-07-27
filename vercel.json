@@ -28,19 +28,19 @@
         "dest": "app.py"
       },
       {
-        "src": "/(.*)",
+        "src": "/admin",
         "dest": "Modules/admin.py"
       },
       {
-        "src": "/(.*)",
+        "src": "/customer",
         "dest": "Modules/customer.py"
       },
       {
-        "src": "/(.*)",
+        "src": "/login",
         "dest": "Modules/login.py"
       },
       {
-        "src": "/(.*)",
+        "src": "/service",
         "dest": "Modules/service.py"
       }
     ],
