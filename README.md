@@ -4,8 +4,6 @@
 The **Household Services Application** is a scalable platform designed to connect users with service providers for various household needs. It provides a seamless experience for users to browse, book, and manage household services such as plumbing, electrical repairs, cleaning, and more.
 
 ---
-### Note : The vercel version might not work as expected since vercel does not support Celery and Redis.
----
 
 ## ✨ Features
 - **User-Friendly Interface**: Simple navigation for users to find and book services easily.
